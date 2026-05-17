@@ -2,7 +2,6 @@
 
 Texodus is a modern, fast, and beautiful Markdown editor built with **Tauri 2** and **Vue 3**. Designed for performance and a premium user experience, it combines the power of Rust with the flexibility of modern web technologies to provide a native-feeling desktop writing environment.
 
-![Texodus Banner](https://raw.githubusercontent.com/tauri-apps/tauri/dev/app-icon.png) <!-- Placeholder for actual banner if available -->
 
 ## ✨ Features
 
