@@ -15,14 +15,34 @@ import { useSettingsStore } from '../stores/settings';
 import { useMarkdownPreview } from '../composables/useMarkdownPreview';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
+import mermaid from 'mermaid';
 
 const editorStore = useEditorStore();
 const settingsStore = useSettingsStore();
 const { setPreviewElement, syncFromPreview } = useMarkdownPreview();
 const previewRef = ref(null);
 
+// Configure mermaid
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'dark', // We'll adjust this based on the theme later
+  securityLevel: 'loose',
+});
+
 // Configure marked
 marked.setOptions({ breaks: true, gfm: true });
+
+// Custom renderer for mermaid blocks (§6.2)
+const renderer = new marked.Renderer();
+const originalCode = renderer.code.bind(renderer);
+renderer.code = function (args) {
+  const { text, lang } = args;
+  if (lang === 'mermaid') {
+    return `<div class="mermaid">${text}</div>`;
+  }
+  return originalCode(args);
+};
+marked.use({ renderer });
 
 // Debounce rendering (§6.2)
 let renderTimer = null;
@@ -54,6 +74,20 @@ const renderMarkdown = async () => {
   previewRef.value.innerHTML = clean;
 
   await nextTick();
+
+  // Render mermaid diagrams
+  const mermaidBlocks = previewRef.value.querySelectorAll('.mermaid');
+  if (mermaidBlocks.length > 0) {
+    try {
+      // Re-init with current theme
+      const isDark = document.querySelector('.theme-root')?.classList.contains('dark');
+      mermaid.initialize({ startOnLoad: false, theme: isDark ? 'dark' : 'default' });
+      await mermaid.run({ nodes: mermaidBlocks });
+    } catch (e) {
+      console.error('Mermaid render failed:', e);
+    }
+  }
+
   // Lazy load Prism only when there are code blocks (§6.2)
   if (previewRef.value.querySelector('pre code')) {
     const Prism = await import('prismjs');

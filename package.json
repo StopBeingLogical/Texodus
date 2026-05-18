@@ -24,6 +24,7 @@
     "@types/dompurify": "^3.0.5",
     "dompurify": "^3.4.3",
     "marked": "^18.0.3",
+    "mermaid": "^11.15.0",
     "pdfmake": "^0.3.8",
     "pinia": "^3.0.4",
     "prismjs": "^1.30.0",
