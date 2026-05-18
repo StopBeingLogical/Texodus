@@ -30,7 +30,15 @@ const DEBOUNCE_MS = 120;
 
 const renderMarkdown = async () => {
   if (!previewRef.value) return;
-  const raw = await marked.parse(editorStore.content);
+  
+  // Strip frontmatter from preview (§6.2)
+  let contentToParse = editorStore.content;
+  const match = contentToParse.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/);
+  if (match) {
+    contentToParse = contentToParse.slice(match[0].length);
+  }
+
+  const raw = await marked.parse(contentToParse);
   // Sanitize to prevent XSS (§3.2). External links open via shell.open,
   // so 'target' is unnecessary; 'rel' is allowed for safe attribution.
   const clean = DOMPurify.sanitize(raw, {

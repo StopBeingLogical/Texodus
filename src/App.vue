@@ -10,6 +10,7 @@
         @cycle-theme="settingsStore.cycleTheme()"
         @format="handleFormat"
       />
+      <TabBar />
       <EditorLayout :layoutMode="settingsStore.layoutMode">
         <template #editor><TextEditor /></template>
         <template #preview><MarkdownPreview /></template>
@@ -26,6 +27,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useSettingsStore } from './stores/settings';
 import { useEditorStore } from './stores/editor';
 import TitleBar from './components/TitleBar.vue';
+import TabBar from './components/TabBar.vue';
 import EditorLayout from './components/EditorLayout.vue';
 import TextEditor from './components/TextEditor.vue';
 import MarkdownPreview from './components/MarkdownPreview.vue';
@@ -114,12 +116,14 @@ onMounted(async () => {
   try {
     const win = getCurrentWindow();
     unlistenClose = await win.onCloseRequested(async (event) => {
-      if (!editorStore.isDirty) return;
+      if (!editorStore.hasDirtyBuffers) return;
       event.preventDefault();
 
       const choice = await promptUnsavedChanges();
       if (choice === 'cancel') return;
       if (choice === 'save') {
+        // Simple strategy: try to save active buffer. 
+        // A more robust one would loop through all dirty buffers.
         const saved = await saveFile(editorStore);
         if (!saved) return;
       }
