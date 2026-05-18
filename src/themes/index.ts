@@ -24,19 +24,19 @@ export interface ThemeTokens {
   syntaxPunctuation: string;
 }
 
-export interface ColorScheme {
-  id: string;
-  label: string;
-  light: ThemeTokens;
-  dark: ThemeTokens;
-}
-
 export const COLOR_SCHEME_IDS = [
   'default', 'solarized', 'nord', 'monokai',
   'dracula', 'github', 'catppuccin', 'gruvbox',
   'everforest', 'matrix',
 ] as const;
 export type ColorSchemeId = typeof COLOR_SCHEME_IDS[number];
+
+export interface ColorScheme {
+  id: ColorSchemeId;
+  label: string;
+  light: ThemeTokens;
+  dark: ThemeTokens;
+}
 
 export const COLOR_SCHEMES: ColorScheme[] = [
   {
@@ -490,7 +490,7 @@ export const COLOR_SCHEMES: ColorScheme[] = [
       blockquoteBg:         'rgba(10,136,54,0.05)',
       scrollbarThumb:       'rgba(0,0,0,0.22)',
       scrollbarThumbHover:  'rgba(0,0,0,0.4)',
-      headingColor:         '#00b33b',
+      headingColor:         '#009231ff',
       syntaxComment:        '#4d7a5c',
       syntaxKeyword:        '#00cc33',
       syntaxString:         '#66ff99',

@@ -6,13 +6,13 @@
         :layoutMode="settingsStore.layoutMode"
         :themeMode="settingsStore.themeMode"
         :title="windowTitle"
-        :toolbarVisible="toolbarVisible"
+        :toolbarVisible="settingsStore.toolbarVisible"
         @toggle-layout="settingsStore.setLayoutMode($event)"
         @cycle-theme="settingsStore.cycleTheme()"
-        @toggle-toolbar="toolbarVisible = !toolbarVisible"
+        @toggle-toolbar="settingsStore.setToolbarVisible(!settingsStore.toolbarVisible)"
       />
       <Toolbar
-        v-show="toolbarVisible"
+        v-show="settingsStore.toolbarVisible"
         :isDirty="editorStore.isDirty"
         @new-file="handleNewFile"
         @open-file="handleOpenFile"
@@ -61,7 +61,6 @@ import { listen } from '@tauri-apps/api/event';
 const settingsStore = useSettingsStore();
 const editorStore = useEditorStore();
 const { getEditorElement } = useMarkdownPreview();
-const toolbarVisible = ref(true);
 
 // ── File handlers ─────────────────────────────────────────────────────────────
 

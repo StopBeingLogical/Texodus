@@ -45,6 +45,7 @@ interface PersistedSettings {
   previewFont: string;
   fontSize: number;
   recentFiles: string[];
+  toolbarVisible: boolean;
 }
 
 interface SettingsState extends PersistedSettings {
@@ -60,6 +61,7 @@ const DEFAULTS: PersistedSettings = {
   previewFont: PREVIEW_FONTS[0].value,
   fontSize: 14,
   recentFiles: [],
+  toolbarVisible: true,
 };
 
 function loadFromStorage(): SettingsState {
@@ -80,6 +82,7 @@ export const useSettingsStore = defineStore('settings', {
     setLayoutMode(mode: LayoutMode) { this.layoutMode = mode; },
     setThemeMode(mode: ThemeMode) { this.themeMode = mode; },
     setColorScheme(id: ColorSchemeId) { this.colorScheme = id; },
+    setToolbarVisible(v: boolean) { this.toolbarVisible = v; },
     setSettingsVisible(v: boolean) { this.settingsVisible = v; },
     setEditorFont(font: string) { this.editorFont = font; },
     setPreviewFont(font: string) { this.previewFont = font; },
