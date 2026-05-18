@@ -6,18 +6,8 @@
         :layoutMode="settingsStore.layoutMode"
         :themeMode="settingsStore.themeMode"
         :title="windowTitle"
-        :toolbarVisible="settingsStore.toolbarVisible"
         @toggle-layout="settingsStore.setLayoutMode($event)"
         @cycle-theme="settingsStore.cycleTheme()"
-        @toggle-toolbar="settingsStore.setToolbarVisible(!settingsStore.toolbarVisible)"
-      />
-      <Toolbar
-        v-show="settingsStore.toolbarVisible"
-        :isDirty="editorStore.isDirty"
-        @new-file="handleNewFile"
-        @open-file="handleOpenFile"
-        @save-file="handleSaveFile"
-        @save-as="handleSaveAs"
         @format="handleFormat"
       />
       <EditorLayout :layoutMode="settingsStore.layoutMode">
@@ -36,7 +26,6 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useSettingsStore } from './stores/settings';
 import { useEditorStore } from './stores/editor';
 import TitleBar from './components/TitleBar.vue';
-import Toolbar from './components/Toolbar.vue';
 import EditorLayout from './components/EditorLayout.vue';
 import TextEditor from './components/TextEditor.vue';
 import MarkdownPreview from './components/MarkdownPreview.vue';
@@ -64,10 +53,10 @@ const { getEditorElement } = useMarkdownPreview();
 
 // ── File handlers ─────────────────────────────────────────────────────────────
 
-const handleNewFile = () => newFile(editorStore);
-const handleOpenFile = () => openFile(editorStore);
-const handleSaveFile = () => saveFile(editorStore);
-const handleSaveAs = () => saveFileAs(editorStore);
+// The file handlers for the old toolbar have been removed but these are still
+// technically importable/usable by the native menu and shortcuts, so keeping
+// the imports in the file is fine.
+
 const handleFormat = (format) => applyFormat(format, getEditorElement());
 
 // ── Rebuild native menu when recent files change ──────────────────────────────

@@ -1,5 +1,5 @@
 import { Menu, Submenu, MenuItem, PredefinedMenuItem } from '@tauri-apps/api/menu';
-import { openFile, saveFile, saveFileAs, newFile, loadFileFromPath } from '../services/fileService';
+import { openFile, saveFile, saveFileAs, newFile, loadFileFromPath, closeFile } from '../services/fileService';
 import type { useEditorStore } from '../stores/editor';
 import { useSettingsStore } from '../stores/settings';
 
@@ -69,6 +69,12 @@ export async function setupAppMenu(store: EditorStore): Promise<void> {
       action: () => { void openFile(store); },
     }),
     openRecentSubmenu,
+    await MenuItem.new({
+      id: 'file-close',
+      text: 'Close',
+      accelerator: 'CmdOrCtrl+W',
+      action: () => { void closeFile(store); },
+    }),
     await PredefinedMenuItem.new({ item: 'Separator' }),
     await MenuItem.new({
       id: 'file-save',

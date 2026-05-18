@@ -94,6 +94,12 @@ export async function newFile(store: EditorStore): Promise<void> {
   await updateWindowTitle(store);
 }
 
+export async function closeFile(store: EditorStore): Promise<void> {
+  if (!(await confirmCanProceed(store))) return;
+  store.reset();
+  await updateWindowTitle(store);
+}
+
 export async function updateWindowTitle(store: EditorStore): Promise<void> {
   try {
     const win = getCurrentWindow();

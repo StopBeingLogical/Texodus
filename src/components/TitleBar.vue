@@ -8,14 +8,7 @@
 
     <!-- Right: View & Theme controls (moved from toolbar) -->
     <div class="titlebar-controls">
-      <button
-        id="btn-toggle-toolbar"
-        class="tb-btn icon-only"
-        :title="toolbarVisible ? 'Hide Toolbar' : 'Show Toolbar'"
-        @click="$emit('toggle-toolbar')"
-      >
-        <span class="tb-icon" :style="{ '--icon': `url(${toolbarVisible ? iconClosePane : iconOpenPane})` }"></span>
-      </button>
+      <FormatMenu @format="$emit('format', $event)" />
 
       <div class="layout-switcher">
         <button
@@ -43,6 +36,7 @@
 <script setup>
 import { computed } from 'vue';
 import SettingsMenu from './SettingsMenu.vue';
+import FormatMenu from './FormatMenu.vue';
 
 import iconLayoutSplit from '../assets/icons/icons8-view-stream-100.png';
 import iconLayoutFocus from '../assets/icons/icons8-pencil-drawing-100.png';
@@ -50,17 +44,14 @@ import iconLayoutPreview from '../assets/icons/icons8-preview-100.png';
 import iconThemeSystem from '../assets/icons/icons8-operating-system-100.png';
 import iconThemeLight from '../assets/icons/icons8-sun-100.png';
 import iconThemeDark from '../assets/icons/icons8-do-not-disturb-ios-100.png';
-import iconOpenPane from '../assets/icons/icons8-open-pane-100.png';
-import iconClosePane from '../assets/icons/icons8-close-pane-100.png';
 
 const props = defineProps({
   layoutMode: String,
   themeMode: String,
   title: { type: String, default: 'Texodus' },
-  toolbarVisible: { type: Boolean, default: true },
 });
 
-defineEmits(['toggle-layout', 'cycle-theme', 'toggle-toolbar']);
+defineEmits(['toggle-layout', 'cycle-theme', 'format']);
 
 const layoutModes = [
   { value: 'split', label: 'Split View', icon: iconLayoutSplit },
@@ -83,6 +74,17 @@ const themeIcon = computed(() => {
 
 <style scoped>
 .titlebar {
+  /* Override user theme variables with native-looking default values based purely on OS theme */
+  --toolbar-bg: rgba(255, 255, 255, 0.85);
+  --border-color: #e2e5ea;
+  --text-color: #1a1d23;
+  --text-muted: #6b7280;
+  --accent-color: #6366f1;
+  --accent-subtle: rgba(99, 102, 241, 0.12);
+  --btn-hover: rgba(0, 0, 0, 0.05);
+  --scrollbar-thumb: rgba(0, 0, 0, 0.22);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.4);
+
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -93,6 +95,20 @@ const themeIcon = computed(() => {
   flex-shrink: 0;
   position: relative;
   z-index: 20;
+}
+
+@media (prefers-color-scheme: dark) {
+  .titlebar {
+    --toolbar-bg: rgba(16, 18, 26, 0.88);
+    --border-color: #252836;
+    --text-color: #e2e4eb;
+    --text-muted: #6b7280;
+    --accent-color: #818cf8;
+    --accent-subtle: rgba(129, 140, 248, 0.15);
+    --btn-hover: rgba(255, 255, 255, 0.06);
+    --scrollbar-thumb: rgba(255, 255, 255, 0.22);
+    --scrollbar-thumb-hover: rgba(255, 255, 255, 0.4);
+  }
 }
 
 /* Glassmorphism */
