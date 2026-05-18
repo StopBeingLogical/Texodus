@@ -1,10 +1,13 @@
 name: Release Application
 
 on:
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
     inputs:
       release_version:
-        description: ''
+        description: 'Release version (optional)'
         required: false
         default: ''
         type: string
@@ -26,6 +29,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - platform: 'macos-latest'
+            target: 'aarch64-apple-darwin,x86_64-apple-darwin'
           - platform: 'ubuntu-22.04'
             target: 'x86_64-unknown-linux-gnu'
           - platform: 'windows-latest'
@@ -68,5 +73,7 @@ jobs:
         with:
           tagName: ${{ github.event.inputs.release_version != '' && format('v{0}', github.event.inputs.release_version) || 'v__VERSION__' }}
           releaseName: ${{ github.event.inputs.release_version != '' && format('Texodus v{0}', github.event.inputs.release_version) || 'Texodus v__VERSION__' }}
-          releaseDraft: ${{ github.event.inputs.draft }}
+          releaseBody: 'Automated release for Texodus.'
+          releaseDraft: ${{ github.event.inputs.draft != null && github.event.inputs.draft || true }}
           prerelease: false
+          args: ${{ matrix.platform == 'macos-latest' && '--target universal-apple-darwin' || '' }}
