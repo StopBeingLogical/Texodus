@@ -1,12 +1,12 @@
 # Texodus
 
-Texodus is a modern, fast, and beautiful Markdown editor built with **Tauri 2** and **Vue 3**. Designed for performance and a premium user experience, it combines the power of Rust with the flexibility of modern web technologies to provide a native-feeling desktop writing environment.
+Texodus is a modern, fast, and beautiful Markdown editor built with **Tauri 2** and **Vue 3**. Designed for performance and a premium user experience, it combines the power of Rust with the flexibility of modern web technologies to provide a native-feeling desktop writing environment with robust support for the **GitHub Flavored Markdown (GFM)** standard.
 
 ![Texodus Editor Preview](screenshots/Screenshot_01.png)
 
 ## ✨ Features
 
--   **Live Markdown Preview**: Real-time rendering with debounced updates for smooth performance even on large files.
+-   **Live Markdown Preview**: Real-time rendering with debounced updates and support for the **GitHub Flavored Markdown (GFM)** standard (including tables, strikethrough, and autolinks).
 -   **Dynamic Layouts**: Switch between **Split View**, **Focus Mode** (Editor only), and **Preview Only** modes.
 -   **Premium Aesthetics**: Native-feeling UI with support for **Dark/Light modes** and smooth transitions.
 -   **Custom Typography**: Choose from curated fonts like *Inter*, *JetBrains Mono*, and *Roboto* for both editor and preview.
@@ -30,7 +30,7 @@ Texodus is a modern, fast, and beautiful Markdown editor built with **Tauri 2** 
 -   **Core**: [Tauri 2](https://v2.tauri.app/) (Rust)
 -   **Frontend**: [Vue 3](https://vuejs.org/) (Composition API) + [Vite](https://vitejs.dev/)
 -   **State**: [Pinia](https://pinia.vuejs.org/)
--   **Markdown**: [marked.js](https://marked.js.org/) with [DOMPurify](https://github.com/cure53/dompurify) for sanitization.
+-   **Markdown**: [marked.js](https://marked.js.org/) compliant with the **GitHub Flavored Markdown (GFM)** specification, with [DOMPurify](https://github.com/cure53/dompurify) for sanitization.
 -   **Syntax Highlighting**: [Prism.js](https://prismjs.com/)
 -   **Styling**: Vanilla CSS (no frameworks) with CSS variables for theming.
 -   **Package Manager**: [Bun](https://bun.sh/) (recommended)

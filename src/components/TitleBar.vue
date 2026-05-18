@@ -24,6 +24,8 @@
         </button>
       </div>
 
+      <DocumentStatsMenu />
+
       <button id="btn-theme" class="tb-btn icon-only" :title="`Theme: ${themeLabel}`" @click="$emit('cycle-theme')">
         <span class="tb-icon" :style="{ '--icon': `url(${themeIcon})` }"></span>
       </button>
@@ -37,6 +39,7 @@
 import { computed } from 'vue';
 import SettingsMenu from './SettingsMenu.vue';
 import FormatMenu from './FormatMenu.vue';
+import DocumentStatsMenu from './DocumentStatsMenu.vue';
 
 import iconLayoutSplit from '../assets/icons/icons8-view-stream-100.png';
 import iconLayoutFocus from '../assets/icons/icons8-pencil-drawing-100.png';
