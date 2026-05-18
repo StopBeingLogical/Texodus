@@ -48,11 +48,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { getVersion } from '@tauri-apps/api/app';
+import packageJson from '../../package.json';
 import { useEditorStore } from '../stores/editor';
 
 const editorStore = useEditorStore();
 const activeTab = ref<'info' | 'license'>('info');
-const appVersion = ref('0.5.2');
+const appVersion = ref(packageJson.version);
 
 onMounted(async () => {
   try {
