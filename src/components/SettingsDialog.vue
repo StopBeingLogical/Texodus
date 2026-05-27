@@ -69,6 +69,43 @@
             </div>
           </div>
 
+          <div class="settings-row">
+            <label for="max-width">Content width</label>
+            <div class="stepper">
+              <button
+                class="stepper-btn"
+                :disabled="settingsStore.maxContentWidth <= 400"
+                aria-label="Decrease max width"
+                @click="settingsStore.setMaxContentWidth(settingsStore.maxContentWidth - 50)"
+              >−</button>
+              <select
+                id="max-width"
+                class="stepper-value"
+                :value="settingsStore.maxContentWidth"
+                @change="settingsStore.setMaxContentWidth(Number(($event.target as HTMLSelectElement).value))"
+              >
+                <option value="400">400px</option>
+                <option value="500">500px</option>
+                <option value="600">600px</option>
+                <option value="700">700px</option>
+                <option value="780">780px</option>
+                <option value="850">850px</option>
+                <option value="950">950px</option>
+                <option value="1050">1050px</option>
+                <option value="1150">1150px</option>
+                <option value="1250">1250px</option>
+                <option value="1400">1400px</option>
+                <option value="1600">1600px</option>
+              </select>
+              <button
+                class="stepper-btn"
+                :disabled="settingsStore.maxContentWidth >= 2000"
+                aria-label="Increase max width"
+                @click="settingsStore.setMaxContentWidth(settingsStore.maxContentWidth + 50)"
+              >+</button>
+            </div>
+          </div>
+
           <div class="settings-section">
             <span class="section-label">Color scheme</span>
             <div class="scheme-grid">

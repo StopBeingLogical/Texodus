@@ -1,13 +1,13 @@
 <template>
   <div class="editor-container" :class="layoutMode">
     <Transition name="panel">
-      <div v-if="layoutMode !== 'preview'" class="editor-pane">
+      <div v-if="layoutMode !== 'preview'" class="editor-pane" :style="{ maxWidth: contentMaxWidth }">
         <slot name="editor"></slot>
       </div>
     </Transition>
     <div class="pane-divider" v-if="layoutMode === 'split'"></div>
     <Transition name="panel">
-      <div v-if="layoutMode !== 'focus'" class="preview-pane">
+      <div v-if="layoutMode !== 'focus'" class="preview-pane" :style="{ maxWidth: contentMaxWidth }">
         <slot name="preview"></slot>
       </div>
     </Transition>
@@ -15,8 +15,18 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { useSettingsStore } from '../stores/settings';
+
 defineProps({
   layoutMode: String,
+});
+
+const settingsStore = useSettingsStore();
+
+// Computed max width for centered content
+const contentMaxWidth = computed(() => {
+  return `${settingsStore.maxContentWidth}px`;
 });
 </script>
 
@@ -32,7 +42,6 @@ defineProps({
 
 .editor-pane,
 .preview-pane {
-  flex: 1;
   height: 100%;
   overflow: hidden;
   min-width: 0;
@@ -49,7 +58,7 @@ defineProps({
 /* Centered single-panel modes */
 .editor-container.preview .preview-pane,
 .editor-container.focus .editor-pane {
-  max-width: 780px;
+  max-width: v-bind(contentMaxWidth);
   margin: 0 auto;
 }
 

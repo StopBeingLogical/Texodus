@@ -45,6 +45,8 @@ interface PersistedSettings {
   previewFont: string;
   fontSize: number;
   recentFiles: string[];
+  maxContentWidth: number;
+  splitRatio: number;
 }
 
 interface SettingsState extends PersistedSettings {
@@ -60,6 +62,8 @@ const DEFAULTS: PersistedSettings = {
   previewFont: PREVIEW_FONTS[0].value,
   fontSize: 14,
   recentFiles: [],
+  maxContentWidth: 780,
+  splitRatio: 0.5,
 };
 
 function loadFromStorage(): SettingsState {
@@ -107,6 +111,12 @@ export const useSettingsStore = defineStore('settings', {
       } catch {
         // Quota exceeded or unavailable — silently ignore.
       }
+    },
+    setMaxContentWidth(width: number) {
+      this.maxContentWidth = Math.max(400, Math.min(2000, width));
+    },
+    setSplitRatio(ratio: number) {
+      this.splitRatio = Math.max(0.1, Math.min(0.9, ratio));
     },
   },
 });
